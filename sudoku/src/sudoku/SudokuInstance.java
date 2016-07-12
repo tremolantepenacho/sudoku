@@ -76,10 +76,17 @@ public class SudokuInstance {
         }
     }
     
-   /* public boolean compruebaNumero(int num, int fila, int columna){
+    public boolean esNumeroValido(int num, int fila, int col){
         
-        if (compruebaNumeroFila(num,fila))
-    }*/
+        if (!estaNumeroEnFila(num,fila)){
+            if (!estaNumeroEnColumna(num,col)){
+                if (!estaNumeroEnSector(num,fila,col)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     
     public boolean estaNumeroEnFila(int num, int fila){
         int col=0;
@@ -156,11 +163,14 @@ public class SudokuInstance {
                 }
         }
         int i=filIni;
-        int j=colIni;
+        
         while (i<filIni+3){
+            int j=colIni;
             while (j<colIni+3){   
                if (matriz[i][j]==num) return true;
+               j++;
             }
+            i++;
         }
         
         return false;             

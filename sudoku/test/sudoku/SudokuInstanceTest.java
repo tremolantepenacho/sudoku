@@ -109,7 +109,35 @@ public class SudokuInstanceTest {
         assertEquals(9,ejemplo.numeroSector(7, 7));
     }
 
-   
+   @Test
+   public void testesNumeroValido(){
+       assertTrue(ejemplo.esNumeroValido(4, 0, 0));
+       assertFalse(ejemplo.esNumeroValido(1, 0, 0));
+       
+       assertTrue(ejemplo.esNumeroValido(4, 0, 4));
+       assertFalse(ejemplo.esNumeroValido(2, 0, 4));
+       
+       assertTrue(ejemplo.esNumeroValido(1, 0, 7));
+       assertFalse(ejemplo.esNumeroValido(6, 0, 7));
+       
+       assertTrue(ejemplo.esNumeroValido(7, 3, 0));
+       assertFalse(ejemplo.esNumeroValido(4, 3, 0));
+       
+       assertTrue(ejemplo.esNumeroValido(4, 3, 4));
+       assertFalse(ejemplo.esNumeroValido(7, 3, 4));
+       
+       assertTrue(ejemplo.esNumeroValido(7, 3, 8));
+       assertFalse(ejemplo.esNumeroValido(6, 3, 8));
+       
+       assertTrue(ejemplo.esNumeroValido(1, 6, 2));
+       assertFalse(ejemplo.esNumeroValido(9, 6, 2));
+       
+       assertTrue(ejemplo.esNumeroValido(5, 6, 4));
+       assertFalse(ejemplo.esNumeroValido(7, 6, 4));
+       
+       assertTrue(ejemplo.esNumeroValido(1, 7, 7));
+       assertFalse(ejemplo.esNumeroValido(2, 7, 7));
+   }
 
     
 }
