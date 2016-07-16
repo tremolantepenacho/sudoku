@@ -6,11 +6,9 @@
 package sudoku;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ArrayList;
 
 /**
  *
@@ -68,14 +66,26 @@ public class SudokuInstance {
     }
     
     public void imprimeSudoku(){
+        System.out.println("---------------------");
         for(int i=0;i<9;i++){
             for (int j=0;j<9;j++){
+                if(j==0){
+                    System.out.print("|");
+                }
                 System.out.print(matriz[i][j]+" ");
+                if(j==2 || j==5 ||j==8){
+                    System.out.print("|");
+                }
             }
             System.out.println();
+            if(i==2 || i==5 ||i==8){
+                    System.out.println("---------------------");
+                }
         }
     }
-    
+    public boolean casillaVacia(int fila,int col){
+        return (matriz[fila][col]==0);
+    }
     public boolean esNumeroValido(int num, int fila, int col){
         
         if (!estaNumeroEnFila(num,fila)){
@@ -204,5 +214,18 @@ public class SudokuInstance {
                 else return 9;
              }
          
+     }
+     
+     public ArrayList<Integer> obtieneNumerosValidos(int fila, int col){
+         ArrayList<Integer> nums=new ArrayList();
+         if (matriz[fila][col]!=0){
+             return nums;
+         }
+         for (int i=1;i<10;i++){
+             if (esNumeroValido(i,fila,col)){
+                nums.add(i);
+            }
+         }
+     return nums;
      }
 }

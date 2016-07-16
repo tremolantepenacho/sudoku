@@ -5,6 +5,8 @@
  */
 package sudoku;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author hector
@@ -17,15 +19,22 @@ public class Sudoku {
     public static void main(String[] args) {
         SudokuInstance ejemplo=new SudokuInstance("facil.sdk");
         ejemplo.imprimeSudoku();
-     /*   for (int i=1;i<10;i++){
-            System.out.println(i+":"+ejemplo.compruebaNumero(i, 0, 0));
-        }
-       */
-     /*for (int i=1;i<10;i++){
-          System.out.println(i+":"+ejemplo.estaNumeroEnSector(i, 1, 1));
-     }*/
+        for (int i=0;i<9;i++){
+            for (int j=0;j<9;j++){
+            if (ejemplo.casillaVacia(i, j)){
+                System.out.print("fila="+i+" col="+j+" nums=");
+                for(int num:ejemplo.obtieneNumerosValidos(i, j)){
+                    System.out.print(num+",");
+                }
+             }
+                System.out.println();
+         }
+     }
      
-     ejemplo.esNumeroValido(3, 1, 4);
+     ArrayList<Integer> nums=ejemplo.obtieneNumerosValidos(6, 8);
+     for(int num:nums){
+         System.out.println(num);
+     }
     }
     
 }

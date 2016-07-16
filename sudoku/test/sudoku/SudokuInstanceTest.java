@@ -110,7 +110,7 @@ public class SudokuInstanceTest {
     }
 
    @Test
-   public void testesNumeroValido(){
+   public void testEsNumeroValido(){
        assertTrue(ejemplo.esNumeroValido(4, 0, 0));
        assertFalse(ejemplo.esNumeroValido(1, 0, 0));
        
@@ -139,5 +139,34 @@ public class SudokuInstanceTest {
        assertFalse(ejemplo.esNumeroValido(2, 7, 7));
    }
 
-    
+    @Test
+   public void testObtieneNumerosValidos(){   
+       assertTrue(ejemplo.obtieneNumerosValidos(1, 0).isEmpty());
+       
+       assertEquals(ejemplo.obtieneNumerosValidos(3,0).size(),1);
+       assertEquals(ejemplo.obtieneNumerosValidos(3,0).get(0).intValue(),7);
+       
+       assertEquals(ejemplo.obtieneNumerosValidos(0,0).size(),2);
+       assertEquals(ejemplo.obtieneNumerosValidos(0,0).get(0).intValue(),4);
+       assertEquals(ejemplo.obtieneNumerosValidos(0,0).get(1).intValue(),7);
+       
+       assertEquals(ejemplo.obtieneNumerosValidos(1,8).size(),3);
+       assertEquals(ejemplo.obtieneNumerosValidos(1,8).get(0).intValue(),4);
+       assertEquals(ejemplo.obtieneNumerosValidos(1,8).get(1).intValue(),8);
+       assertEquals(ejemplo.obtieneNumerosValidos(1,8).get(2).intValue(),9);
+       
+       assertEquals(ejemplo.obtieneNumerosValidos(2,3).size(),4);
+       assertEquals(ejemplo.obtieneNumerosValidos(2,3).get(0).intValue(),3);
+       assertEquals(ejemplo.obtieneNumerosValidos(2,3).get(1).intValue(),4);
+       assertEquals(ejemplo.obtieneNumerosValidos(2,3).get(2).intValue(),7);
+       assertEquals(ejemplo.obtieneNumerosValidos(2,3).get(3).intValue(),9);
+       
+       assertEquals(ejemplo.obtieneNumerosValidos(8,4).size(),5);
+       assertEquals(ejemplo.obtieneNumerosValidos(8,4).get(0).intValue(),1);
+       assertEquals(ejemplo.obtieneNumerosValidos(8,4).get(1).intValue(),2);
+       assertEquals(ejemplo.obtieneNumerosValidos(8,4).get(2).intValue(),5);
+       assertEquals(ejemplo.obtieneNumerosValidos(8,4).get(3).intValue(),8);
+       assertEquals(ejemplo.obtieneNumerosValidos(8,4).get(4).intValue(),9);
+   
+   }
 }
