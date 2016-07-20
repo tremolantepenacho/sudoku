@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  *
@@ -64,7 +65,12 @@ public class SudokuInstance {
             }
         }    
     }
-    
+    public void setNumero(int num, int fila, int col){
+        matriz[fila][col]=num;
+    }
+    public int getNumero(int fila, int col){
+        return matriz[fila][col];
+    }
     public void imprimeSudoku(){
         System.out.println("---------------------");
         for(int i=0;i<9;i++){
@@ -227,5 +233,65 @@ public class SudokuInstance {
             }
          }
      return nums;
+     }
+     
+    /* Obtiene los numeros que faltan por poner en una fila*/
+    public ArrayList<Integer> obtenNumerosRestantesFila(int fila){
+       ArrayList<Integer> aux=creaListaLlena();
+       for (int i=0;i<9;i++){
+           if (getNumero(fila,i)!=0){
+               aux.remove((Integer)getNumero(fila,i));
+           }
+       }
+       return aux;
+    }
+    
+    
+    public ArrayList<Integer> obtenPosicionesPosiblesNumeroEnFila(int num,int fila){
+        ArrayList<Integer> aux=new ArrayList();
+        for (int i=0;i<9;i++){
+            if (casillaVacia(fila,i)){
+                if (esNumeroValido(num,fila,i)){
+                    aux.add(i);
+                }
+            }
+        }
+        return aux;
+    }
+    
+    public void completaFila(int fila){
+        
+        ArrayList<Integer> numerosRestantes=obtenNumerosRestantesFila(fila);
+        for (int num:numerosRestantes){
+             ArrayList<Integer> posicionesPosibles=obtenPosicionesPosiblesNumeroEnFila(num,fila);
+             if (posicionesPosibles.size()==1){
+                 setNumero(num,fila,posicionesPosibles.get(0));
+             }
+         }
+        
+    }
+    
+    private ArrayList<Integer> creaListaLlena(){
+        ArrayList<Integer> aux=new ArrayList();
+        for (int i=1;i<10;i++){
+            aux.add(i);
+        }
+        return aux;
+    }
+    public int realizaPasada(){
+         ArrayList<Integer> aux;
+         int res=0;
+         for (int i=0;i<9;i++){
+             for (int j=0;j<9;j++){
+                 if (casillaVacia(i,j)){
+                     aux=obtieneNumerosValidos(i,j);
+                     if (aux.size()==1){
+                         matriz[i][j]=aux.get(0);
+                         res++;
+                     }
+                 }
+             }
+         }
+         return res;
      }
 }

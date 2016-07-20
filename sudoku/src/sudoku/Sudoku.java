@@ -18,23 +18,33 @@ public class Sudoku {
      */
     public static void main(String[] args) {
         SudokuInstance ejemplo=new SudokuInstance("facil.sdk");
+       
         ejemplo.imprimeSudoku();
-        for (int i=0;i<9;i++){
-            for (int j=0;j<9;j++){
-            if (ejemplo.casillaVacia(i, j)){
-                System.out.print("fila="+i+" col="+j+" nums=");
-                for(int num:ejemplo.obtieneNumerosValidos(i, j)){
-                    System.out.print(num+",");
-                }
-             }
-                System.out.println();
+        int total;
+        do {
+            total=ejemplo.realizaPasada();
+            System.out.println(total);
+            ejemplo.imprimeSudoku();
+            
+        }while (total!=0);
+        
+    /* ArrayList<Integer> nums=ejemplo.obtenNumerosRestantesFila(0);
+    
+     for(int num:nums){
+         System.out.print(num+":");
+      */   ArrayList<Integer>posis=ejemplo.obtenPosicionesPosiblesNumeroEnFila(1, 0);
+         for (int pos:posis){
+             System.out.print(pos+";");
          }
+        /* System.out.println();
+     }*/
+        
+     for (int i=0;i<9;i++){
+         ejemplo.completaFila(i);
      }
      
-     ArrayList<Integer> nums=ejemplo.obtieneNumerosValidos(6, 8);
-     for(int num:nums){
-         System.out.println(num);
-     }
+        System.out.println("******************************");
+      ejemplo.imprimeSudoku();
     }
     
 }
