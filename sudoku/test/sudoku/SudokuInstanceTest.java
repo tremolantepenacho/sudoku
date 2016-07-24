@@ -5,8 +5,7 @@
  */
 package sudoku;
 
-import java.io.FileNotFoundException;
-import sudoku.SudokuInstance;
+import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -168,5 +167,47 @@ public class SudokuInstanceTest {
        assertEquals(ejemplo.obtieneNumerosValidos(8,4).get(3).intValue(),8);
        assertEquals(ejemplo.obtieneNumerosValidos(8,4).get(4).intValue(),9);
    
+   }
+   @Test
+   public void testObtenNumerosRestantesFilas(){   
+       ArrayList<Integer> aux=ejemplo.obtenNumerosRestantesFila(1);
+       assertEquals(aux.size(),5);
+       assertTrue(aux.contains((Integer)2));
+       assertTrue(aux.contains((Integer)4));
+       assertTrue(aux.contains((Integer)6));
+       assertTrue(aux.contains((Integer)8));
+       assertTrue(aux.contains((Integer)9));
+       assertFalse(aux.contains((Integer)1));
+       assertFalse(aux.contains((Integer)3));
+       assertFalse(aux.contains((Integer)5));
+       assertFalse(aux.contains((Integer)7));
+       
+       aux=ejemplo.obtenNumerosRestantesFila(8);
+       assertEquals(aux.size(),6);
+       assertTrue(aux.contains((Integer)1));
+       assertTrue(aux.contains((Integer)2));
+       assertTrue(aux.contains((Integer)4));
+       assertTrue(aux.contains((Integer)5));
+       assertTrue(aux.contains((Integer)8));
+       assertTrue(aux.contains((Integer)9));
+       assertFalse(aux.contains((Integer)3));
+       assertFalse(aux.contains((Integer)6));
+       assertFalse(aux.contains((Integer)7));
+   }
+   @Test
+   public void testObtenPosicionesPosiblesNumeroEnFila(){
+       ArrayList<Integer> aux=ejemplo.obtenPosicionesPosiblesNumeroEnFila(1,0);
+       assertEquals(aux.size(),3);
+       assertTrue(aux.contains((Integer)4));
+       assertTrue(aux.contains((Integer)5));
+       assertTrue(aux.contains((Integer)7));
+       
+       aux=ejemplo.obtenPosicionesPosiblesNumeroEnFila(2,0);
+       assertEquals(aux.size(),0);
+       
+       aux=ejemplo.obtenPosicionesPosiblesNumeroEnFila(6,1);
+       assertEquals(aux.size(),1);
+       assertEquals(aux.get(0),(Integer)1);
+    
    }
 }

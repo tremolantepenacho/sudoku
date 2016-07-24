@@ -22,12 +22,20 @@ public class Sudoku {
         ejemplo.imprimeSudoku();
         int total;
         do {
+       /*     total=ejemplo.realizaPasada();
+            System.out.println(total);
+            ejemplo.imprimeSudoku();*/
+       
+            total=ejemplo.realizaPasadaCompletaFila();
+            System.out.println(total);
+            ejemplo.imprimeSudoku();
+        }while (total!=0);
+        do {
             total=ejemplo.realizaPasada();
             System.out.println(total);
             ejemplo.imprimeSudoku();
-            
+       
         }while (total!=0);
-        
     /* ArrayList<Integer> nums=ejemplo.obtenNumerosRestantesFila(0);
     
      for(int num:nums){

@@ -9,7 +9,6 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  *
@@ -18,6 +17,11 @@ import java.util.Iterator;
 public class SudokuInstance {
     int matriz[][];
 
+    /**
+     * Método que comprueba que el fichero de sudoku existe
+     * @param fichero El nombre del fichero a comprobar
+     * @return Si el fichero existe
+     */
     public static boolean existeFichero(String fichero){
        
         try {
@@ -39,6 +43,11 @@ public class SudokuInstance {
         }
        }
 */
+    /**
+     * Constructor de la clase. Esta clase permite leer un sudoku desde el fichero
+     * y tiene métodos para trabajar con él y resolverlo
+     * @param fichero El nombre del fichero donde está el sudoku
+     */
     public SudokuInstance(String fichero){
         
         if (SudokuInstance.existeFichero(fichero)){
@@ -71,6 +80,9 @@ public class SudokuInstance {
     public int getNumero(int fila, int col){
         return matriz[fila][col];
     }
+    /**
+     * Imprime el sudoku con formato por la salida estándar
+    */
     public void imprimeSudoku(){
         System.out.println("---------------------");
         for(int i=0;i<9;i++){
@@ -89,9 +101,22 @@ public class SudokuInstance {
                 }
         }
     }
+    /**
+     * Contesta si la casilla determinada por fila y col está vacía
+     * @param fila La fila
+     * @param col La columna
+     * @return Si está vacía
+     */
     public boolean casillaVacia(int fila,int col){
         return (matriz[fila][col]==0);
     }
+    /**
+     * Indica si es posible poner un número en una casilla en concreto del sudoku
+     * @param num El número que se quiere comprobar
+     * @param fila La fila
+     * @param col La columna
+     * @return Si num es válido en la casilla [fila][col]
+     */
     public boolean esNumeroValido(int num, int fila, int col){
         
         if (!estaNumeroEnFila(num,fila)){
@@ -103,7 +128,12 @@ public class SudokuInstance {
         }
         return false;
     }
-    
+    /**
+     * Indica si un número en concreto está ya insertado en una fila
+     * @param num El número a comprobar
+     * @param fila La fila
+     * @return Si está el número en la fila o no
+     */
     public boolean estaNumeroEnFila(int num, int fila){
         int col=0;
         while (col<9){
@@ -114,7 +144,12 @@ public class SudokuInstance {
         }
         return false;
     }
-    
+    /**
+     * Indica si un número en concreto está ya insertado en una columna
+     * @param num El número
+     * @param col La columna
+     * @return Si está el número en la columna o no
+     */
      public boolean estaNumeroEnColumna(int num, int col){
         int fila=0;
         while (fila<9){
@@ -125,7 +160,13 @@ public class SudokuInstance {
         }
         return false;
     }
-     
+    /**
+     * Indica si un número en concreto está ya insertado en un sector
+     * @param num El número
+     * @param fila La fila
+     * @param col La columna
+     * @return Si está el número en el sector o no
+     */
     public boolean estaNumeroEnSector(int num, int fila, int col){
      
         int filIni=0;
@@ -191,6 +232,15 @@ public class SudokuInstance {
         
         return false;             
     }
+    /**
+     * Devuelve el sector en el que está una celda en concreto. los sectores
+     * están numerados de izquierda a derecha y de arriba a abajo, siendo el 
+     * de arriba a la izquierda el sector número uno y el de abajo a la derecha
+     * el número nueve
+     * @param fila La fila
+     * @param col La columna
+     * @return El número de sector
+     */
      protected int numeroSector(int fila, int col){
          if (fila<3){
              if (col<3) {
@@ -221,7 +271,12 @@ public class SudokuInstance {
              }
          
      }
-     
+     /**
+      * Devuelve los números que se pueden colocar en una casilla en concreto
+      * @param fila La fila
+      * @param col La columna
+      * @return Una lista de los números válidos
+      */
      public ArrayList<Integer> obtieneNumerosValidos(int fila, int col){
          ArrayList<Integer> nums=new ArrayList();
          if (matriz[fila][col]!=0){
@@ -235,7 +290,11 @@ public class SudokuInstance {
      return nums;
      }
      
-    /* Obtiene los numeros que faltan por poner en una fila*/
+    /**
+     * Obtiene los numeros que faltan por poner en una fila
+     * @param fila La fila
+     * @return Una lista con los números restantes
+     */ 
     public ArrayList<Integer> obtenNumerosRestantesFila(int fila){
        ArrayList<Integer> aux=creaListaLlena();
        for (int i=0;i<9;i++){
@@ -246,31 +305,58 @@ public class SudokuInstance {
        return aux;
     }
     
-    
+    /**
+     * Devuelve las casillas de una fila en las que se puede poner un número
+     * @param num El número 
+     * @param fila La fila
+     * @return Una lista con los números de columnas
+     */
     public ArrayList<Integer> obtenPosicionesPosiblesNumeroEnFila(int num,int fila){
         ArrayList<Integer> aux=new ArrayList();
-        for (int i=0;i<9;i++){
-            if (casillaVacia(fila,i)){
-                if (esNumeroValido(num,fila,i)){
-                    aux.add(i);
+        if (estaNumeroEnFila(num,fila)){
+            return aux;
+        }
+        else{
+            for (int i=0;i<9;i++){
+                if (casillaVacia(fila,i)){
+                    if (esNumeroValido(num,fila,i)){
+                        aux.add(i);
+                    }
                 }
             }
+            return aux;
         }
-        return aux;
     }
-    
-    public void completaFila(int fila){
-        
+    /**
+     * Pasa por todas las casillas de una fila, si están vacías comprueba los
+     * números que se pueden poner y si solo es uno lo pone
+     * @param fila La fila
+     * @return La cantidad de casillas modificadas en la pasada
+     */
+    public int completaFila(int fila){
+        int res=0;
         ArrayList<Integer> numerosRestantes=obtenNumerosRestantesFila(fila);
         for (int num:numerosRestantes){
              ArrayList<Integer> posicionesPosibles=obtenPosicionesPosiblesNumeroEnFila(num,fila);
              if (posicionesPosibles.size()==1){
                  setNumero(num,fila,posicionesPosibles.get(0));
+                 res++;
              }
          }
-        
+        return res;
     }
     
+    public int realizaPasadaCompletaFila(){
+        int res=0;
+        for (int i=0;i<9;i++){
+            res+=completaFila(i);
+        }
+        return res;
+    }
+    /**
+     * Crea una lista llena con los números del uno al nueve
+     * @return La lista
+     */
     private ArrayList<Integer> creaListaLlena(){
         ArrayList<Integer> aux=new ArrayList();
         for (int i=1;i<10;i++){
@@ -278,6 +364,11 @@ public class SudokuInstance {
         }
         return aux;
     }
+    /**
+     * Ejecuta el método obtieneNumerosValidos en todas las casillas. Si sólo
+     * hay un número válido para una casilla determinada lo pone
+     * @return La cantidad de casillas modificadas en la pasada
+     */
     public int realizaPasada(){
          ArrayList<Integer> aux;
          int res=0;
